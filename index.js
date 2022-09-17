@@ -11,7 +11,16 @@ const background =new Sprite({
 x:0,
 y:0
     },
-    imageSrc:'./oak_woods_v1.0/background/background.png'
+    imageSrc:'./background.png'
+})
+const shop =new Sprite({
+    position:{
+x:600,
+y:128
+    },
+    imageSrc:'./oak_woods_v1.0/decorations/shop_anim.png',
+    scale:2.75,
+    framesMax:6
 })
 const player=new Fighter({
     position:{
@@ -66,55 +75,15 @@ const keys={
 
     }
 }
-let lastKey
-console.log(player)
-function rectangularCollision({rectangle1,rectangle2}){
-    return(
-        rectangle1.attakBox.position.x + rectangle1.attakBox.width >= 
-        rectangle2.position.x &&
-        rectangle1.attakBox.position.x <=
-        rectangle2.position.x+rectangle2.width
-    && rectangle1.attakBox.position.y+rectangle1.attakBox.height>=
-    rectangle2.position.y && rectangle1.attakBox.position.y<=
-    rectangle2.position.y+rectangle2.height
-   
-    )
-}
-function determineWinner({player,enemy,timerId}){
-    clearTimeout(timerId)
-  document.querySelector('#displayText').style.display='flex'
 
-    if(player.health===enemy.health){
-        document.querySelector('#displayText').innerHTML='Tie'
-      }else if(player.health>enemy.health){
-          document.querySelector('#displayText').innerHTML='Player 1 Wins'
-      
-      }else if(enemy.health>player.health){
-          document.querySelector('#displayText').innerHTML='Player 2 Wins'
-      
-      }
-}
-let timer=60;
-let timerId
-function decreaseTimer(){
-
-    if(timer>0){
-        timerId=setTimeout(decreaseTimer,1000)
-        timer-=1
-        document.querySelector('#timer').innerHTML=timer
-    }
-    if(timer===0){
-  determineWinner({player,enemy,timerId})
- 
-
-  }
-}
 decreaseTimer();
 function animate(){
 window.requestAnimationFrame(animate)
 c.fillStyle="black"
 c.fillRect(0,0,canvas.width,canvas.height)
 background.update();
+shop.update();
+
 player.update()
 enemy.update()
 player.velocity.x=0
