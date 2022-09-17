@@ -15,7 +15,7 @@ y:0
 })
 const player=new Fighter({
     position:{
-   x:0,
+   x:70,
    y:0
 },
 velocity:{
@@ -30,7 +30,7 @@ offset:{
 })
 const enemy=new Fighter({
     position:{
-   x:400,
+   x:900,
    y:100
 },
 velocity:{
