@@ -64,6 +64,14 @@ attack1:{
     imageSrc:'./character_assets/Martial_Hero/Sprites/Attack1.png',
     framesMax:6,
 }
+},
+attakBox:{
+    offset: {
+        x:100,
+        y:50
+    },
+    width:160,
+    height:50
 }
 
 })
@@ -81,34 +89,42 @@ offset:{
     x:-50,
     y:0
 },
-imageSrc:'./character_assets/Martial_Hero/Sprites/Idle.png',
+imageSrc:'./character_assets/EVil_Wizard_2/Sprites/Idle.png',
 framesMax:8,
-scale:2.5,
+scale:2.3,
 offset: {
-    x:215,
-    y:157
+    x:265,
+    y:235
 },
 sprites:{
 idle:{
-    imageSrc:'./character_assets/Martial_Hero/Sprites/Idle.png',
+    imageSrc:'./character_assets/EVil_Wizard_2/Sprites/Idle.png',
     framesMax:8
 },  
 run:{
-    imageSrc:'./character_assets/Martial_Hero/Sprites/Run.png',
+    imageSrc:'./character_assets/EVil_Wizard_2/Sprites/Run.png',
     framesMax:8,
 }, 
 jump:{
-    imageSrc:'./character_assets/Martial_Hero/Sprites/Jump.png',
+    imageSrc:'./character_assets/EVil_Wizard_2/Sprites/Jump.png',
     framesMax:2,
 },
 fall:{
-    imageSrc:'./character_assets/Martial_Hero/Sprites/Fall.png',
+    imageSrc:'./character_assets/EVil_Wizard_2/Sprites/Fall.png',
     framesMax:2,
 },
 attack1:{
-    imageSrc:'./character_assets/Martial_Hero/Sprites/Attack1.png',
-    framesMax:6,
+    imageSrc:'./character_assets/EVil_Wizard_2/Sprites/Attack1.png',
+    framesMax:8,
 },
+},
+attakBox:{
+    offset: {
+        x:-230,
+        y:50
+    },
+    width:230,
+    height:50
 }
 })
 
@@ -143,7 +159,7 @@ background.update();
 shop.update();
 
 player.update()
-// enemy.update()
+enemy.update()
 player.velocity.x=0
 enemy.velocity.x=0
 //player movt
@@ -169,32 +185,46 @@ if(player.velocity.y<0){
 //enemy movt
 if(keys.ArrowRight.pressed&&enemy.lastKey==='ArrowRight'){
     enemy.velocity.x=5
+    enemy.switchSprite('run')
+
 }else if(keys.ArrowLeft.pressed&&enemy.lastKey==='ArrowLeft'){
     enemy.velocity.x=-5
-}
+    enemy.switchSprite('run')
+}else{
+    enemy.switchSprite('idle')
+    
+    }if(enemy.velocity.y<0){
+        enemy.switchSprite('jump')
+    }else if(enemy.velocity.y>0){
+        enemy.switchSprite('fall')
+    }
 //detect fro collision
 if( rectangularCollision({
     rectangle1:player,
     rectangle2:enemy
 })&&
-player.isAttacking
+player.isAttacking&&player.frameCurrent===4
     ){
         player.isAttacking=false
         enemy.health-=20
         document.querySelector('#enemyHealth').style.width=enemy.health+'%'
     // console.log('hit')
 }
-
+if(player.isAttacking&&player.frameCurrent==4){
+    player.isAttacking=false
+}
 if( rectangularCollision({
     rectangle1:enemy,
     rectangle2:player
 })&&
-enemy.isAttacking
+enemy.isAttacking&&enemy.frameCurrent===4
     ){
         enemy.isAttacking = false
-        player.health-=20
+        player.health-=15
         document.querySelector('#playerHealth').style.width=player.health+'%'
     console.log('hit enemy')
+}if(enemy.isAttacking&&enemy.frameCurrent==4){
+    enemy.isAttacking=false
 }
 //end game based on health
 if(enemy.health<=0||player.health<=0){
@@ -231,7 +261,7 @@ player.lastKey='d'
 
                 break;
                 case 'ArrowDown':
-                  enemy.isAttacking = true
+                  enemy.attack()
                     break;
                     case 'ArrowUp':
                         enemy.velocity.y=-20

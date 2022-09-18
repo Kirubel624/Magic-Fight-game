@@ -54,7 +54,8 @@ class Fighter extends Sprite{
     scale=1,
     framesMax=1,
     offset={ x:0, y:0 },
-    sprites
+    sprites,
+    attakBox={offset:{},width:undefined,height:height}
   }){ 
     super({
       position,
@@ -74,9 +75,9 @@ class Fighter extends Sprite{
         x:this.position.x,
         y:this.position.y
     },
-    offset,
-        width: 100,
-        height: 50
+    offset:attakBox.offset,
+        width: attakBox.width,
+        height: attakBox.height
       }
       this.color=color
       this.isAttacking
@@ -99,7 +100,13 @@ class Fighter extends Sprite{
         this.animateFrames()
         
       this.attakBox.position.x=this.position.x + this.attakBox.offset.x
-      this.attakBox.position.y=this.position.y  
+      this.attakBox.position.y=this.position.y + this.attakBox.offset.y
+
+      // c.fillRect(this.attakBox.position.x,
+      //   this.attakBox.position.y,
+      //   this.attakBox.width,
+      //   this.attakBox.height)
+
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
         if(this.position.y + this.height + this.velocity.y >= canvas.height-96){
@@ -112,9 +119,7 @@ this.position.y=330
     attack(){
       this.switchSprite('attack1')
         this.isAttacking = true
-        setTimeout(()=>{
-            this.isAttacking=false
-        }, 100)
+       
     }
     switchSprite(sprite){
       if(this.image===this.sprites.attack1.image
