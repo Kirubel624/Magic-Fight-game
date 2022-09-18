@@ -20,7 +20,8 @@ y:128
     },
     imageSrc:'./oak_woods_v1.0/decorations/shop_anim.png',
     scale:2.75,
-    framesMax:6
+    framesMax:6,
+   
 })
 const player=new Fighter({
     position:{
@@ -34,6 +35,35 @@ velocity:{
 offset:{
     x:0,
     y:0
+},
+imageSrc:'./character_assets/Martial_Hero/Sprites/Idle.png',
+framesMax:8,
+scale:2.5,
+offset: {
+    x:215,
+    y:157
+},
+sprites:{
+idle:{
+    imageSrc:'./character_assets/Martial_Hero/Sprites/Idle.png',
+    framesMax:8
+},  
+run:{
+    imageSrc:'./character_assets/Martial_Hero/Sprites/Run.png',
+    framesMax:8,
+}, 
+jump:{
+    imageSrc:'./character_assets/Martial_Hero/Sprites/Jump.png',
+    framesMax:2,
+},
+fall:{
+    imageSrc:'./character_assets/Martial_Hero/Sprites/Fall.png',
+    framesMax:2,
+},
+attack1:{
+    imageSrc:'./character_assets/Martial_Hero/Sprites/Attack1.png',
+    framesMax:6,
+}
 }
 
 })
@@ -50,7 +80,8 @@ color: "blue",
 offset:{
     x:-50,
     y:0
-}
+},
+
 
 })
 
@@ -85,14 +116,28 @@ background.update();
 shop.update();
 
 player.update()
-enemy.update()
+// enemy.update()
 player.velocity.x=0
 enemy.velocity.x=0
 //player movt
+// player.image=player.sprites.idle.image
+// player.framesMax=8
 if(keys.a.pressed&&player.lastKey==='a'){
     player.velocity.x=-5
+    player.switchSprite('run')
 }else if(keys.d.pressed&&player.lastKey==='d'){
     player.velocity.x=5
+    player.switchSprite('run')
+
+}else{
+player.switchSprite('idle')
+
+}
+if(player.velocity.y<0){
+    player.switchSprite('jump')
+}else if(player.velocity.y>0){
+    player.switchSprite('fall')
+
 }
 //enemy movt
 if(keys.ArrowRight.pressed&&enemy.lastKey==='ArrowRight'){
