@@ -81,8 +81,35 @@ offset:{
     x:-50,
     y:0
 },
-
-
+imageSrc:'./character_assets/Martial_Hero/Sprites/Idle.png',
+framesMax:8,
+scale:2.5,
+offset: {
+    x:215,
+    y:157
+},
+sprites:{
+idle:{
+    imageSrc:'./character_assets/Martial_Hero/Sprites/Idle.png',
+    framesMax:8
+},  
+run:{
+    imageSrc:'./character_assets/Martial_Hero/Sprites/Run.png',
+    framesMax:8,
+}, 
+jump:{
+    imageSrc:'./character_assets/Martial_Hero/Sprites/Jump.png',
+    framesMax:2,
+},
+fall:{
+    imageSrc:'./character_assets/Martial_Hero/Sprites/Fall.png',
+    framesMax:2,
+},
+attack1:{
+    imageSrc:'./character_assets/Martial_Hero/Sprites/Attack1.png',
+    framesMax:6,
+},
+}
 })
 
 
