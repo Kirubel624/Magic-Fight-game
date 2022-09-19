@@ -217,13 +217,14 @@ if( rectangularCollision({
     rectangle1:enemy,
     rectangle2:player
 })&&
-enemy.isAttacking&&enemy.frameCurrent===4
+enemy.isAttacking&&enemy.frameCurrent===1
     ){
         enemy.isAttacking = false
-        player.health-=15
+        player.health-=20
         document.querySelector('#playerHealth').style.width=player.health+'%'
     console.log('hit enemy')
-}if(enemy.isAttacking&&enemy.frameCurrent==4){
+}
+if(enemy.isAttacking&&enemy.frameCurrent==4){
     enemy.isAttacking=false
 }
 //end game based on health
