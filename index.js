@@ -63,6 +63,10 @@ fall:{
 attack1:{
     imageSrc:'./character_assets/Martial_Hero/Sprites/Attack1.png',
     framesMax:6,
+},
+takeHit:{
+    imageSrc:'./character_assets/Martial_Hero/Sprites/Take hit - white silhouette.png',
+    framesMax:4,
 }
 },
 attakBox:{
@@ -117,6 +121,10 @@ attack1:{
     imageSrc:'./character_assets/EVil_Wizard_2/Sprites/Attack1.png',
     framesMax:8,
 },
+takeHit:{
+    imageSrc:'./character_assets/EVil_Wizard_2/Sprites/Take hit.png',
+    framesMax:3
+}
 },
 attakBox:{
     offset: {
@@ -205,22 +213,26 @@ if( rectangularCollision({
 })&&
 player.isAttacking&&player.frameCurrent===4
     ){
+        enemy.takeHit()
         player.isAttacking=false
-        enemy.health-=20
+        
         document.querySelector('#enemyHealth').style.width=enemy.health+'%'
     // console.log('hit')
 }
 if(player.isAttacking&&player.frameCurrent==4){
     player.isAttacking=false
 }
+
+
+
 if( rectangularCollision({
     rectangle1:enemy,
     rectangle2:player
 })&&
 enemy.isAttacking&&enemy.frameCurrent===1
     ){
+        player.takeHit()
         enemy.isAttacking = false
-        player.health-=20
         document.querySelector('#playerHealth').style.width=player.health+'%'
     console.log('hit enemy')
 }
