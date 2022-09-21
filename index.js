@@ -36,37 +36,41 @@ offset:{
     x:0,
     y:0
 },
-imageSrc:'./character_assets/Martial_Hero/Sprites/Idle.png',
+imageSrc:'./character_assets/Fantasy Warrior/Fantasy Warrior/Sprites/Idle.png',
 framesMax:8,
-scale:2.5,
+scale:2.8,
 offset: {
     x:215,
-    y:157
+    y:135
 },
 sprites:{
 idle:{
-    imageSrc:'./character_assets/Martial_Hero/Sprites/Idle.png',
-    framesMax:8
+    imageSrc:'./character_assets/Fantasy Warrior/Fantasy Warrior/Sprites/Idle.png',
+    framesMax:10
 },  
 run:{
-    imageSrc:'./character_assets/Martial_Hero/Sprites/Run.png',
+    imageSrc:'./character_assets/Fantasy Warrior/Fantasy Warrior/Sprites/Run.png',
     framesMax:8,
 }, 
 jump:{
-    imageSrc:'./character_assets/Martial_Hero/Sprites/Jump.png',
-    framesMax:2,
+    imageSrc:'./character_assets/Fantasy Warrior/Fantasy Warrior/Sprites/Jump.png',
+    framesMax:3,
 },
 fall:{
-    imageSrc:'./character_assets/Martial_Hero/Sprites/Fall.png',
-    framesMax:2,
+    imageSrc:'./character_assets/Fantasy Warrior/Fantasy Warrior/Sprites/Fall.png',
+    framesMax:3,
 },
 attack1:{
-    imageSrc:'./character_assets/Martial_Hero/Sprites/Attack1.png',
-    framesMax:6,
+    imageSrc:'./character_assets/Fantasy Warrior/Fantasy Warrior/Sprites/Attack3.png',
+    framesMax:8,
 },
 takeHit:{
-    imageSrc:'./character_assets/Martial_Hero/Sprites/Take hit - white silhouette.png',
-    framesMax:4,
+    imageSrc:'./character_assets/Fantasy Warrior/Fantasy Warrior/Sprites/Take hit.png',
+    framesMax:3,
+},
+death:{
+    imageSrc:'./character_assets/Fantasy Warrior/Fantasy Warrior/Sprites/Death.png',
+    framesMax:7,
 }
 },
 attakBox:{
@@ -124,6 +128,10 @@ attack1:{
 takeHit:{
     imageSrc:'./character_assets/EVil_Wizard_2/Sprites/Take hit.png',
     framesMax:3
+},
+death:{
+    imageSrc:'./character_assets/EVil_Wizard_2/Sprites/Death.png',
+    framesMax:7,
 }
 },
 attakBox:{
@@ -165,7 +173,8 @@ c.fillStyle="black"
 c.fillRect(0,0,canvas.width,canvas.height)
 background.update();
 shop.update();
-
+c.fillStyle='rgba(255,255,255,0.15)'
+c.fillRect(0,0,canvas.width,canvas.height)
 player.update()
 enemy.update()
 player.velocity.x=0
@@ -216,8 +225,11 @@ player.isAttacking&&player.frameCurrent===4
         enemy.takeHit()
         player.isAttacking=false
         
-        document.querySelector('#enemyHealth').style.width=enemy.health+'%'
-    // console.log('hit')
+        // document.querySelector('#enemyHealth').style.width=enemy.health+'%'
+    gsap.to('#enemyHealth',{
+width:enemy.health+'%'
+    })
+        // console.log('hit')
 }
 if(player.isAttacking&&player.frameCurrent==4){
     player.isAttacking=false
@@ -233,8 +245,9 @@ enemy.isAttacking&&enemy.frameCurrent===1
     ){
         player.takeHit()
         enemy.isAttacking = false
-        document.querySelector('#playerHealth').style.width=player.health+'%'
-    console.log('hit enemy')
+        gsap.to('#playerHealth',{
+            width:player.health+'%'
+                })
 }
 if(enemy.isAttacking&&enemy.frameCurrent==4){
     enemy.isAttacking=false
@@ -246,6 +259,7 @@ if(enemy.health<=0||player.health<=0){
 }
 animate()
 window.addEventListener('keydown',(event)=>{
+    if(!player.dead){
     switch(event.key){
         case 'd':
             keys.d.pressed=true
@@ -263,24 +277,30 @@ player.lastKey='d'
                         player.velocity.y=-20
                         break;
 
-                        case 'ArrowRight':
-            keys.ArrowRight.pressed=true
-            enemy.lastKey='ArrowRight'
+                     
+    }}
+    if(!enemy.dead){
+   switch(event.key)
+   { case 'ArrowRight':
+        keys.ArrowRight.pressed=true
+        enemy.lastKey='ArrowRight'
+
+        break;
+        case 'ArrowLeft':
+            keys.ArrowLeft.pressed=true
+            enemy.lastKey='ArrowLeft'
 
             break;
-            case 'ArrowLeft':
-                keys.ArrowLeft.pressed=true
-                enemy.lastKey='ArrowLeft'
-
+            case 'ArrowDown':
+              enemy.attack()
                 break;
-                case 'ArrowDown':
-                  enemy.attack()
+                case 'ArrowUp':
+                    enemy.velocity.y=-20
                     break;
-                    case 'ArrowUp':
-                        enemy.velocity.y=-20
-                        break;
-    }
 // console.log(event.key)
+
+}
+}
 })
 window.addEventListener('keyup',(event)=>{
     switch(event.key){
